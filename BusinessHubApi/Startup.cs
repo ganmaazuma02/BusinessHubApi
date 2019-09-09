@@ -6,9 +6,11 @@ using AutoMapper;
 using BusinessHubApi.Filters;
 using BusinessHubApi.Infrastructure;
 using BusinessHubApi.Models;
+using BusinessHubApi.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
@@ -36,6 +38,8 @@ namespace BusinessHubApi
 
             services.Configure<PagingOptions>(
                 Configuration.GetSection("DefaultPagingOptions"));
+
+            services.AddScoped<IBusinessService, DefaultBusinessService>();
 
             // in-memory db
             services.AddDbContext<BusinessHubApiDbContext>(
@@ -97,6 +101,7 @@ namespace BusinessHubApi
             }
 
             app.UseHttpsRedirection();
+
             app.UseMvc();
         }
     }

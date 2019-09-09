@@ -19,7 +19,8 @@ namespace BusinessHubApi.Controllers
             var response = new RootResponse
             {
                 Self = Link.To(nameof(GetRoot)),
-                Info = Link.To(nameof(InfoController.GetInfo))
+                Info = Link.To(nameof(InfoController.GetInfo)),
+                Businesses = Link.To(nameof(BusinessesController.GetAllBusinesses))
             };
 
 

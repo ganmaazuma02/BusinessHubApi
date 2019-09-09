@@ -11,7 +11,11 @@ namespace BusinessHubApi.Infrastructure
     {
         public MappingProfile()
         {
-            
+            CreateMap<BusinessEntity, Business>()
+                 .ForMember(dest => dest.Self, opt => opt.MapFrom(src =>
+                     Link.To(
+                         nameof(Controllers.BusinessesController.GetBusinessById),
+                         new { businessId = src.Id })));
         }
     }
 }

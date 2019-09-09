@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BusinessHubApi.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +12,6 @@ namespace BusinessHubApi
     {
         public BusinessHubApiDbContext(DbContextOptions options) : base(options) {}
 
-
+        public DbSet<BusinessEntity> Businesses { get; set; }
     }
 }
