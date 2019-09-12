@@ -10,6 +10,9 @@ namespace BusinessHubApi.Services
     {
 
         Task<Business> GetBusinessAsync(Guid id);
-        Task<PagedResults<Business>> GetBusinessesAsync(PagingOptions pagingOptions);
+        Task<PagedResults<Business>> GetBusinessesAsync(
+            PagingOptions pagingOptions, 
+            SortOptions<Business, BusinessEntity> sortOptions,
+            SearchOptions<Business, BusinessEntity> searchOptions);
     }
 }

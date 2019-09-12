@@ -36,9 +36,14 @@ namespace BusinessHubApi.Services
 
         }
 
-        public async Task<PagedResults<Business>> GetBusinessesAsync(PagingOptions pagingOptions)
+        public async Task<PagedResults<Business>> GetBusinessesAsync(
+            PagingOptions pagingOptions, 
+            SortOptions<Business, BusinessEntity> sortOptions,
+            SearchOptions<Business, BusinessEntity> searchOptions)
         {
-            var query = _context.Businesses;
+            IQueryable<BusinessEntity> query = _context.Businesses;
+            query = searchOptions.Apply(query);
+            query = sortOptions.Apply(query);
 
             var size = await query.CountAsync();
 

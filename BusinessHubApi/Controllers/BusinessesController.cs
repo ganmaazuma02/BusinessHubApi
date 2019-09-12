@@ -29,12 +29,14 @@ namespace BusinessHubApi.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         public async Task<ActionResult<Collection<Business>>> GetAllBusinesses(
-            [FromQuery] PagingOptions pagingOptions = null)
+            [FromQuery] PagingOptions pagingOptions,
+            [FromQuery] SortOptions<Business, BusinessEntity> sortOptions,
+            [FromQuery] SearchOptions<Business, BusinessEntity> searchOptions)
         {
             pagingOptions.Offset = pagingOptions.Offset ?? _defaultPagingOptions.Offset;
             pagingOptions.Limit = pagingOptions.Limit ?? _defaultPagingOptions.Limit;
 
-            var businesses = await _businessService.GetBusinessesAsync(pagingOptions);
+            var businesses = await _businessService.GetBusinessesAsync(pagingOptions, sortOptions, searchOptions);
 
             var collection = PagedCollection<Business>.Create(
                 Link.ToCollection(nameof(GetAllBusinesses)),

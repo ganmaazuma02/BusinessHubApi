@@ -78,6 +78,12 @@ namespace BusinessHubApi
                 options.ApiVersionSelector = new CurrentImplementationApiVersionSelector(options);
             });
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowMyApp",
+                    policy => policy.AllowAnyOrigin()); // This needs to be removed when deploying to production
+            });
+
             services.AddAutoMapper(options => options.AddProfile<MappingProfile>(), typeof(Startup));
 
             services.Configure<ApiBehaviorOptions>(options =>
@@ -104,6 +110,8 @@ namespace BusinessHubApi
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseCors("AllowMyApp");
 
             app.UseHttpsRedirection();
 
