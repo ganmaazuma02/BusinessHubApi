@@ -20,7 +20,8 @@ namespace BusinessHubApi.Controllers
             {
                 Self = Link.To(nameof(GetRoot)),
                 Info = Link.To(nameof(InfoController.GetInfo)),
-                Businesses = Link.To(nameof(BusinessesController.GetAllBusinesses))
+                Businesses = Link.ToCollection(nameof(BusinessesController.GetAllBusinesses)),
+                Users = Link.ToCollection(nameof(UsersController.GetVisibleUsers))
             };
 
 

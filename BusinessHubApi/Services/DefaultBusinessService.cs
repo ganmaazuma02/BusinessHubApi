@@ -36,12 +36,23 @@ namespace BusinessHubApi.Services
 
         }
 
-        public async Task<IEnumerable<Business>> GetBusinessesAsync()
+        public async Task<PagedResults<Business>> GetBusinessesAsync(PagingOptions pagingOptions)
         {
-            var query = _context.Businesses
-                .ProjectTo<Business>(_mappingConfiguration);
+            var query = _context.Businesses;
 
-            return await query.ToArrayAsync();
+            var size = await query.CountAsync();
+
+            var items = await query
+                .Skip(pagingOptions.Offset.Value)
+                .Take(pagingOptions.Limit.Value)
+                .ProjectTo<Business>(_mappingConfiguration)
+                .ToArrayAsync();
+
+            return new PagedResults<Business>
+            {
+                Items = items,
+                TotalSize = size
+            };
         }
     }
 }

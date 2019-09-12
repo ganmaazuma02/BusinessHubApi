@@ -2,14 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace BusinessHubApi.Services
 {
-    public interface IBusinessService
+    public interface IUserService
     {
+        Task<PagedResults<User>> GetUsersAsync(
+            PagingOptions pagingOptions);
 
-        Task<Business> GetBusinessAsync(Guid id);
-        Task<PagedResults<Business>> GetBusinessesAsync(PagingOptions pagingOptions);
     }
 }

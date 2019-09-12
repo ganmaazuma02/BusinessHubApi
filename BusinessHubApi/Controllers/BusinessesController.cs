@@ -27,15 +27,20 @@ namespace BusinessHubApi.Controllers
         // GET /businesses
         [HttpGet(Name = nameof(GetAllBusinesses))]
         [ProducesResponseType(200)]
-        public async Task<ActionResult<Collection<Business>>> GetAllBusinesses()
+        [ProducesResponseType(400)]
+        public async Task<ActionResult<Collection<Business>>> GetAllBusinesses(
+            [FromQuery] PagingOptions pagingOptions = null)
         {
-            var rooms = await _businessService.GetBusinessesAsync();
+            pagingOptions.Offset = pagingOptions.Offset ?? _defaultPagingOptions.Offset;
+            pagingOptions.Limit = pagingOptions.Limit ?? _defaultPagingOptions.Limit;
 
-            var collection = new Collection<Business>
-            {
-                Self = Link.ToCollection(nameof(GetAllBusinesses)),
-                Value = rooms.ToArray()
-            };
+            var businesses = await _businessService.GetBusinessesAsync(pagingOptions);
+
+            var collection = PagedCollection<Business>.Create(
+                Link.ToCollection(nameof(GetAllBusinesses)),
+                businesses.Items.ToArray(),
+                businesses.TotalSize,
+                pagingOptions);
 
             return collection;
         }

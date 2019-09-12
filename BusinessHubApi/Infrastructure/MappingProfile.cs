@@ -16,6 +16,11 @@ namespace BusinessHubApi.Infrastructure
                      Link.To(
                          nameof(Controllers.BusinessesController.GetBusinessById),
                          new { businessId = src.Id })));
+
+            CreateMap<UserEntity, User>()
+                .ForMember(dest => dest.Self, opt => opt.MapFrom(src =>
+                    Link.To(nameof(Controllers.UsersController.GetUserById),
+                    new { userId = src.Id })));
         }
     }
 }

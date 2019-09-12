@@ -35,15 +35,20 @@ namespace BusinessHubApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<ApiInfo>(Configuration.GetSection("Info"));
+            services.Configure<PagingOptions>(Configuration.GetSection("DefaultPagingOptions"));
 
             services.Configure<PagingOptions>(
                 Configuration.GetSection("DefaultPagingOptions"));
 
             services.AddScoped<IBusinessService, DefaultBusinessService>();
+            services.AddScoped<IUserService, DefaultUserService>();
 
             // in-memory db
             services.AddDbContext<BusinessHubApiDbContext>(
                 options => options.UseInMemoryDatabase("businesshubdb"));
+
+            // Add ASP.NET Core Identity
+            AddIdentityCoreServices(services);
 
             services.AddMvc(options =>
             {
@@ -103,6 +108,20 @@ namespace BusinessHubApi
             app.UseHttpsRedirection();
 
             app.UseMvc();
+        }
+
+        private static void AddIdentityCoreServices(IServiceCollection services)
+        {
+            var builder = services.AddIdentityCore<UserEntity>();
+            builder = new IdentityBuilder(
+                builder.UserType,
+                typeof(UserRoleEntity),
+                builder.Services);
+
+            builder.AddRoles<UserRoleEntity>()
+                .AddEntityFrameworkStores<BusinessHubApiDbContext>()
+                .AddDefaultTokenProviders()
+                .AddSignInManager<SignInManager<UserEntity>>();
         }
     }
 }

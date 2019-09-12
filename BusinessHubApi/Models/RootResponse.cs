@@ -7,5 +7,6 @@ namespace BusinessHubApi.Models
     {
         public Link Info { get; set; }
         public Link Businesses { get; set; }
+        public Link Users { get; set; }
     }
 }

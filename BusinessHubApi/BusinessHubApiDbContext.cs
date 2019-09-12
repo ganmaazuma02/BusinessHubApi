@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BusinessHubApi
 {
-    public class BusinessHubApiDbContext : DbContext
+    public class BusinessHubApiDbContext : IdentityDbContext<UserEntity, UserRoleEntity, Guid>
     {
         public BusinessHubApiDbContext(DbContextOptions options) : base(options) {}
 
